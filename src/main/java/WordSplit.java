@@ -1,3 +1,4 @@
+import javax.swing.text.html.parser.Parser;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -5,7 +6,7 @@ import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 
-public class HTMLParser {
+public class WordSplit {
     public static void main(String[] args) {
         System.out.print(createDictionaryFromFile("files/file.txt"));
     }
@@ -15,7 +16,7 @@ public class HTMLParser {
         try {
             InputStream fileInputStream = new FileInputStream(filePath);
             Reader streamReader = new InputStreamReader(fileInputStream, Charset.defaultCharset());
-            int intch;
+            int intch = 0;
             StringBuilder currentWord = new StringBuilder("");
             while ((intch = streamReader.read()) != -1) {
                 char ch = (char) intch;
@@ -37,4 +38,5 @@ public class HTMLParser {
         }
         return dictionary;
     }
+
 }
