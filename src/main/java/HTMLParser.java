@@ -7,23 +7,27 @@ import java.util.HashMap;
 
 public class HTMLParser {
     public static void main(String[] args) {
+        System.out.print(createDictionaryFromFile("files/file.txt"));
+    }
+
+    public static HashMap<String, Integer> createDictionaryFromFile(String filePath) {
         HashMap<String, Integer> dictionary = new HashMap<>();
         try {
-            InputStream in = new FileInputStream("files/file.txt");
-            Reader r = new InputStreamReader(in, Charset.defaultCharset());
+            InputStream fileInputStream = new FileInputStream(filePath);
+            Reader streamReader = new InputStreamReader(fileInputStream, Charset.defaultCharset());
             int intch;
             StringBuilder currentWord = new StringBuilder("");
-            String separators = new String(" '\",?!.");
-            while ((intch = r.read()) != -1) {
+            while ((intch = streamReader.read()) != -1) {
                 char ch = (char) intch;
-                if (-1 == separators.indexOf(ch)) {
+                if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9')) {
                     currentWord.append(ch);
                 } else {
                     // Just found a word.
                     if (dictionary.containsKey(currentWord.toString())) {
                         dictionary.replace(currentWord.toString(), dictionary.get(currentWord.toString()) + 1);
+                    } else {
+                        dictionary.put(currentWord.toString(), 1);
                     }
-                    dictionary.put(currentWord.toString(), 1);
                     currentWord = new StringBuilder("");
                 }
             }
@@ -31,6 +35,6 @@ public class HTMLParser {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(dictionary);
+        return dictionary;
     }
 }
