@@ -29,7 +29,7 @@ public class HTMLDocumentParser {
             String name = metaTag.attr("name");
             String content = metaTag.attr("content");
 
-            if (name.equals("keywords") || name.equals("description") || name.equals("robots")) {
+            if (name.equals("Keywords") || name.equals("description") || name.equals("robots")) {
                 hashMap.put(name, content);
             }
         }

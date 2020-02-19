@@ -7,11 +7,7 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 
 public class WordSplit {
-    public static void main(String[] args) {
-        System.out.print(createDictionaryFromFile("files/file.txt"));
-    }
-
-    public static HashMap<String, Integer> createDictionaryFromFile(String filePath) {
+    public HashMap<String, Integer> createDictionaryFromFile(String filePath) {
         HashMap<String, Integer> dictionary = new HashMap<>();
         try {
             InputStream fileInputStream = new FileInputStream(filePath);
@@ -38,5 +34,4 @@ public class WordSplit {
         }
         return dictionary;
     }
-
 }
