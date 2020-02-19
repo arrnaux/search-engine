@@ -5,6 +5,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class HTMLDocumentParser {
     private Document document;
@@ -15,6 +17,17 @@ public class HTMLDocumentParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<String> extractLinks(){
+        List<String> linksList=new LinkedList<>();
+        Elements links=document.select("a");
+        for (Element e: links){
+            String relHref = e.attr("href");
+            String absHref = e.attr("abs:href");
+            linksList.add(absHref);
+        }
+        return linksList;
     }
 
     public String extractTitle() {

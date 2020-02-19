@@ -8,5 +8,6 @@ public class Lab1 {
         HTMLDocumentParser htmlDocumentParser = new HTMLDocumentParser("https://www.w3schools.com/tags/tag_meta.asp");
         System.out.println(htmlDocumentParser.extractTitle());
         System.out.println(htmlDocumentParser.extractMetaTags());
+        System.out.println(htmlDocumentParser.extractLinks());
     }
 }
