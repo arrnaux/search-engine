@@ -6,7 +6,7 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 
 public class HTMLParser {
-    public static void main(int argc, String[] argv) {
+    public static void main(String[] args) {
         HashMap<String, Integer> dictionary = new HashMap<>();
         try {
             InputStream in = new FileInputStream("files/file.txt");
