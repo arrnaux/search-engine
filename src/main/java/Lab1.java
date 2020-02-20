@@ -9,5 +9,6 @@ public class Lab1 {
         System.out.println(htmlDocumentParser.extractTitle());
         System.out.println(htmlDocumentParser.extractMetaTags());
         System.out.println(htmlDocumentParser.extractLinks());
+        System.out.println(htmlDocumentParser.extractBody());
     }
 }
