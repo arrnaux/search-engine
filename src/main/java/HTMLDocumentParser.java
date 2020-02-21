@@ -19,13 +19,18 @@ public class HTMLDocumentParser {
         }
     }
 
-    public List<String> extractLinks() {
-        List<String> linksList = new LinkedList<>();
-        Elements links = document.select("a");
-        for (Element e : links) {
+    public List<String> extractLinks(){
+        List<String> linksList=new LinkedList<>();
+        Elements links=document.select("a");
+        for (Element e: links){
             String relHref = e.attr("href");
             String absHref = e.attr("abs:href");
-            linksList.add(absHref);
+            if(absHref.contains("#")) {
+                int i=absHref.indexOf("#");
+                linksList.add(absHref.substring(0,i));
+            } else {
+                linksList.add(absHref);
+            }
         }
         return linksList;
     }
