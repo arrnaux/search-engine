@@ -1,4 +1,3 @@
-import javax.swing.text.html.parser.Parser;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -6,7 +5,7 @@ import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 
-public class WordSplit {
+public class WordSpliter {
     public HashMap<String, Integer> createDictionaryFromFile(String filePath) {
         HashMap<String, Integer> dictionary = new HashMap<>();
         try {
@@ -20,10 +19,13 @@ public class WordSplit {
                     currentWord.append(ch);
                 } else {
                     // Just found a word.
-                    if (dictionary.containsKey(currentWord.toString())) {
-                        dictionary.replace(currentWord.toString(), dictionary.get(currentWord.toString()) + 1);
-                    } else {
-                        dictionary.put(currentWord.toString(), 1);
+                    WordCategorizer wordCategorizer = new WordCategorizer();
+                    if (wordCategorizer.shouldBeStored(currentWord.toString())) {
+                        if (dictionary.containsKey(currentWord.toString())) {
+                            dictionary.replace(currentWord.toString(), dictionary.get(currentWord.toString()) + 1);
+                        } else {
+                            dictionary.put(currentWord.toString(), 1);
+                        }
                     }
                     currentWord = new StringBuilder("");
                 }

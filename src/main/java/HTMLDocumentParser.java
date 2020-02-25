@@ -5,8 +5,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class HTMLDocumentParser {
     private Document document;
@@ -19,20 +19,22 @@ public class HTMLDocumentParser {
         }
     }
 
-    public List<String> extractLinks(){
-        List<String> linksList=new LinkedList<>();
-        Elements links=document.select("a");
-        for (Element e: links){
-            String relHref = e.attr("href");
-            String absHref = e.attr("abs:href");
-            if(absHref.contains("#")) {
-                int i=absHref.indexOf("#");
-                linksList.add(absHref.substring(0,i));
-            } else {
-                linksList.add(absHref);
+    public Set<String> extractLinks() {
+        Set<String> links = new HashSet<>();
+        Elements linkFromPage = document.select("a[href]");
+        for (Element link : linkFromPage) {
+            String absoluteLink = link.attr("abs:href");
+            if (!absoluteLink.contains(document.baseUri())) {
+                int index = absoluteLink.indexOf("#");
+                if (-1 != index) {
+                    absoluteLink = absoluteLink.substring(index);
+                }
+                if (absoluteLink.length() > 0) {
+                    links.add(absoluteLink);
+                }
             }
         }
-        return linksList;
+        return links;
     }
 
     public String extractTitle() {
@@ -47,14 +49,16 @@ public class HTMLDocumentParser {
             String name = metaTag.attr("name");
             String content = metaTag.attr("content");
 
-            if (name.equals("Keywords") || name.equals("description") || name.equals("robots")) {
-                hashMap.put(name, content);
+            if (null != name) {
+                if (name.equals("Keywords") || name.equals("description") || name.equals("robots")) {
+                    hashMap.put(name, content);
+                }
             }
         }
         return hashMap;
     }
 
-    public Element extractBody(){
+    public Element extractBody() {
         return document.body();
     }
 }
