@@ -1,13 +1,16 @@
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import org.json.JSONObject;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 
 public class WordSpliter {
-    public HashMap<String, Integer> createDictionaryFromFile(String filePath) {
-        HashMap<String, Integer> dictionary = new HashMap<>();
+
+    public HashMap<String, Integer> createDirectIndexFromFile(String filePath) {
+
+        HashMap<String, Integer> directIndex = new HashMap<>();
+        WordFilter wordFilter = new WordFilter();
+
         try {
             InputStream fileInputStream = new FileInputStream(filePath);
             Reader streamReader = new InputStreamReader(fileInputStream, Charset.defaultCharset());
@@ -19,21 +22,41 @@ public class WordSpliter {
                     currentWord.append(ch);
                 } else {
                     // Just found a word.
-                    WordCategorizer wordCategorizer = new WordCategorizer();
-                    if (wordCategorizer.shouldBeStored(currentWord.toString())) {
-                        if (dictionary.containsKey(currentWord.toString())) {
-                            dictionary.replace(currentWord.toString(), dictionary.get(currentWord.toString()) + 1);
+                    if (wordFilter.shouldBeStored(currentWord.toString())) {
+                        if (directIndex.containsKey(currentWord.toString())) {
+                            directIndex.replace(currentWord.toString(), directIndex.get(currentWord.toString()) + 1);
                         } else {
-                            dictionary.put(currentWord.toString(), 1);
+                            directIndex.put(currentWord.toString(), 1);
                         }
                     }
                     currentWord = new StringBuilder("");
                 }
             }
-
+            directIndex.remove("");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return dictionary;
+        return directIndex;
+    }
+
+    public void writeIndexToFile(String filePath) {
+        HashMap<String, Integer> map = createDirectIndexFromFile(filePath);
+        JSONObject jsonObject = new JSONObject(map);
+        try {
+            File outputFile = new File("files/outputs/" + filePath);
+            if (outputFile.exists()) {
+                PrintWriter printWriter = new PrintWriter(outputFile);
+                printWriter.write("");
+                printWriter.close();
+            } else {
+                outputFile.getParentFile().mkdirs();
+                outputFile.createNewFile();
+            }
+            FileWriter fileWriter = new FileWriter(outputFile);
+            fileWriter.write(jsonObject.toString());
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

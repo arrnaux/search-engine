@@ -4,13 +4,13 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-public class WordCategorizer {
+public class WordFilter {
 
     private Set<String> stopWords = new HashSet<>();
-
     private Set<String> exceptions = new HashSet<>();
 
-    public WordCategorizer() {
+    public WordFilter() {
+        // Populate with default values.
         try {
             Scanner scanner = new Scanner(new File("files/stopwords.txt"));
             while (scanner.hasNextLine()) {
@@ -46,6 +46,7 @@ public class WordCategorizer {
     }
 
     String getBaseForm(String string) {
+        // To be implemented in the future.
         return string;
     }
 }

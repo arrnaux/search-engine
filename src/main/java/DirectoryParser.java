@@ -7,7 +7,15 @@ public class DirectoryParser {
     private Queue<File> folders = new LinkedList<>();
     private Queue<File> rawFiles = new LinkedList<>();
 
-    public void processDirectory(String directoryName) {
+    public Queue<File> getFolders() {
+        return folders;
+    }
+
+    public Queue<File> getRawFiles() {
+        return rawFiles;
+    }
+
+    public void findFilesInDirectory(String directoryName) {
         File parentDirectory = new File(directoryName);
         if (parentDirectory.isDirectory()) {
             folders.add(parentDirectory);
@@ -26,13 +34,5 @@ public class DirectoryParser {
                 }
             }
         }
-    }
-
-    public Queue<File> getFolders() {
-        return folders;
-    }
-
-    public Queue<File> getRawFiles() {
-        return rawFiles;
     }
 }
